@@ -28,6 +28,7 @@ int PScheduler(void){
     setpriority(0);
     for (i = 0; i <  3; i++) {
 	pid = fork();
+    printf(1, "\n  new pid = %d \n",pid);
 	if (pid > 0 ) {
 		continue;}
 	else if ( pid == 0) {

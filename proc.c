@@ -354,6 +354,7 @@ scheduler(void)
           highP = p1;
       }
       p = highP;
+      //cprintf("\n Process %d is running\n",p->pid);
       c->proc = p;
       switchuvm(p);
       p->state = RUNNING;
