@@ -20,6 +20,18 @@ sys_exit(void)
   return 0;  // not reached
 }
 
+int sys_setpriority(void){
+  int prior=0;
+  if(argint(0, &prior) < 0){
+    prior=0;
+  }
+  if(prior>31){
+    prior = 31;
+  }
+  setpriority(prior);
+  return 0;  // not reached
+}
+
 int
 sys_wait(void)
 {
