@@ -351,13 +351,20 @@ scheduler(void)
         if(p1->state != RUNNABLE)
           continue;
         if ( highP->priority > p1->priority )   // set highp to p1 since its priority is lower
-          highP = p1;
+          highP = p1;     
+      }
+      if(p->priority != highP->priority){
+        if(p->priority > 0){
+        p->priority--; //if a process does not have the lowest priority value, it will wait, so increase it's priority
+        }
+        continue;
       }
       p = highP;
       //cprintf("\n Process %d is running\n",p->pid);
       c->proc = p;
       switchuvm(p);
       p->state = RUNNING;
+      p->priority++; //if process runs, then decrease the priority
       swtch(&(c->scheduler), p->context);
       switchkvm();
       // Process is done running for now.
