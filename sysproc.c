@@ -53,6 +53,11 @@ sys_getpid(void)
 {
   return myproc()->pid;
 }
+int
+sys_getpriority(void)
+{
+  return myproc()->priority;
+}
 
 int
 sys_sbrk(void)
