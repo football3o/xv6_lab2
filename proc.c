@@ -215,7 +215,8 @@ fork(void)
   acquire(&ptable.lock);
 
   np->state = RUNNABLE;
-
+  np->priority = curproc->priority;
+  curproc->priority++;
   release(&ptable.lock);
 
   return pid;
@@ -281,6 +282,10 @@ wait(void)
         if(curproc->priority > 4){
         curproc->priority-= 5; //if a process does not have the lowest priority value, it will wait, so increase it's priority
         }
+        else{
+          curproc->priority= 0;
+        }
+
      //   cprintf("\n Process %d changed to priority %d\n",curproc->pid,curproc->priority);
   for(;;){
     // Scan through table looking for exited children.

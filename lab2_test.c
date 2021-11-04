@@ -6,12 +6,15 @@ int main(int argc, char *argv[])
 	
 	int PScheduler(void);
 	int aging(void);
+	int inheritance(void);
 
   printf(1, "\n This program tests the correctness of your lab#2\n");
   if (atoi(argv[1]) == 1)
 	PScheduler();
 	else if (atoi(argv[1]) == 2)
 	aging();
+	else if (atoi(argv[1])==3)
+	inheritance();
 	else 
 	 printf(1, "\ntype \"lab2_test 1\" to test priority scheduling, \"lab2_test 2\" to test aging \n");
 	return 0;
@@ -33,7 +36,7 @@ int PScheduler(void){
     setpriority(0);
     for (i = 0; i <  3; i++) {
 	pid = fork();
-    printf(1, "\n  new pid = %d \n",pid);
+    
 	if (pid > 0 ) {
 		continue;}
 	else if ( pid == 0) {
@@ -68,7 +71,7 @@ int aging(void){
 	 setpriority(0);
     for (i = 0; i <  3; i++) {
 	pid = fork();
-    printf(1, "\n  new pid = %d \n",pid);
+    
 	if (pid > 0 ) {
 		continue;}
 	else if ( pid == 0) {
@@ -95,6 +98,24 @@ int aging(void){
 		printf(1, "\n Parent %d with new priority %d \n",getpid(),getpriority());
         printf(1,"\n if processes with highest priority finished first then its correct \n");
     } 
+	exit();
+	return 0;
+}
+
+int inheritance(void){
+	int pid;
+	int i;
+	setpriority(0);
+	pid=fork();
+	i= getpriority();
+	if ( pid == 0)
+		printf(1, "\n child# %d has the priority %d \n",getpid(),i);
+	else{
+		wait();
+		printf(1, "\n parent# %d has the priority %d \n",getpid(),i);
+		printf(1,"\n if the priorities are the same, then its correct \n");
+	}
+
 	exit();
 	return 0;
 }
