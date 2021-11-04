@@ -278,9 +278,10 @@ wait(void)
   
 
   acquire(&ptable.lock);
-        if(p->priority > 0){
-        p->priority--; //if a process does not have the lowest priority value, it will wait, so increase it's priority
+        if(curproc->priority > 4){
+        curproc->priority-= 5; //if a process does not have the lowest priority value, it will wait, so increase it's priority
         }
+     //   cprintf("\n Process %d changed to priority %d\n",curproc->pid,curproc->priority);
   for(;;){
     // Scan through table looking for exited children.
     havekids = 0;
@@ -352,7 +353,7 @@ scheduler(void)
         continue;
       highP = p;
       // choose one with highest priority
-      for(p1 = p; p1 < &ptable.proc[NPROC]; p1++){
+      for(p1 = ptable.proc; p1 < &ptable.proc[NPROC]; p1++){
         if(p1->state != RUNNABLE)
           continue;
         if ( highP->priority > p1->priority )   // set highp to p1 since its priority is lower

@@ -63,11 +63,9 @@ int PScheduler(void){
 }
 
 int aging(void){
-//	int pid;
-//  int i,j,k;
-	printf(1, "\n temporary holder \n");
-	//////////////copied from test 1 for now
-/*	 setpriority(0);
+	int pid;
+  int i,j,k;
+	 setpriority(0);
     for (i = 0; i <  3; i++) {
 	pid = fork();
     printf(1, "\n  new pid = %d \n",pid);
@@ -79,7 +77,8 @@ int aging(void){
 		for (j=0;j<50000;j++) {
 			for(k=0;k<1000;k++) {
 				asm("nop"); }}
-		printf(1, "\n child# %d with priority %d has finished! \n",getpid(),30-10*i);		
+		printf(1, "\n child# %d with initial priority %d has finished! \n",getpid(),30-10*i);	
+		printf(1, "\n child# %d with new priority %d has finished! \n",getpid(),getpriority());	
 		exit();
         }
         else {
@@ -89,12 +88,13 @@ int aging(void){
 	}
 
 	if(pid > 0) {
+		printf(1, "\n Parent %d with initial priority %d \n",getpid(),getpriority());
 		for (i = 0; i <  3; i++) {
 			wait();
-
 		}
-                     printf(1,"\n if processes with highest priority finished first then its correct \n");
-    } */
+		printf(1, "\n Parent %d with new priority %d \n",getpid(),getpriority());
+        printf(1,"\n if processes with highest priority finished first then its correct \n");
+    } 
 	exit();
 	return 0;
 }
