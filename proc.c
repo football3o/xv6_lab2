@@ -276,7 +276,11 @@ wait(void)
   int havekids, pid;
   struct proc *curproc = myproc();
   
+
   acquire(&ptable.lock);
+        if(p->priority > 0){
+        p->priority--; //if a process does not have the lowest priority value, it will wait, so increase it's priority
+        }
   for(;;){
     // Scan through table looking for exited children.
     havekids = 0;
@@ -298,6 +302,7 @@ wait(void)
         release(&ptable.lock);
         return pid;
       }
+
     }
 
     // No point waiting if we don't have any children.
@@ -353,18 +358,15 @@ scheduler(void)
         if ( highP->priority > p1->priority )   // set highp to p1 since its priority is lower
           highP = p1;     
       }
-      if(p->priority != highP->priority){
-        if(p->priority > 0){
-        p->priority--; //if a process does not have the lowest priority value, it will wait, so increase it's priority
-        }
-        continue;
-      }
+
       p = highP;
       //cprintf("\n Process %d is running\n",p->pid);
       c->proc = p;
       switchuvm(p);
       p->state = RUNNING;
-      p->priority++; //if process runs, then decrease the priority
+      if(p->priority < 31){
+          p->priority++; //if process runs, then decrease the priority
+      }
       swtch(&(c->scheduler), p->context);
       switchkvm();
       // Process is done running for now.
